@@ -1,0 +1,70 @@
+<div class="row" style="margin-top: 50px;">
+    <div class="col-xl-12">
+        <!-- Encabezado con título y botón de agregar archivo -->
+        <div class="row align-items-center margin-20 margin-bot-20">
+            <div class="col">
+                <h3 class="mb-0">Documentación y archivos</h3>
+            </div>
+            <div class="col-12">
+                <!-- Para seleccionar archivo -->
+                <input type="file" #fileInput style="display:none" (change)="onFileSelected($event)" />
+            
+                <!-- Grupo de entrada para el nombre del archivo -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nombre del documento</span>
+                    </div>
+                    <input type="text" [(ngModel)]="customFileName" name="customFileName" placeholder="Nombre del archivo" class="form-control" />
+                </div>
+            
+                <!-- Grupo de entrada para la descripción del archivo -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Descripción</span>
+                    </div>
+                    <input type="text" [(ngModel)]="descriptionFile" name="descriptionFile" placeholder="Descripción (opcional)" class="form-control" />
+                </div>
+            
+                <!-- Botones -->
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success btn-lg" (click)="fileInput.click()">+ Seleccionar archivo</button>
+                    <button class="btn btn-primary btn-lg" (click)="uploadFile()" [disabled]="!selectedFile || !customFileName">Subir Archivo</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Lista de archivos -->
+        <div class="table-responsive mt-6">
+            <table *ngIf="files && files.length !== 0" class="table align-items-center table-flush">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Nombre de archivo</th>
+                        <th>Descripción</th>
+                        <th>Fecha de subida</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of files">
+                        <td (click)="verArchivo(file.fileURL)">{{ file.name }}</td>
+                        <td (click)="verArchivo(file.fileURL)">{{ file.description }}</td>
+                        <td (click)="verArchivo(file.fileURL)">{{ file.uploadDate.toDate() | date:'dd/MM/yyyy'  }}</td>
+                        <td>
+                            <span class="badge badge-danger pointer" (click)="eliminarArchivo(file.docId, file.file)">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mensaje cuando no hay archivos -->
+        <div class="card-body">
+            <div *ngIf="files && files.length === 0">
+                <small>No hay archivos de este instructor.</small>
+            </div>
+        </div>
+    </div>
+</div>

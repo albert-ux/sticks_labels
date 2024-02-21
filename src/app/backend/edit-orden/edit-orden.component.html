@@ -1,0 +1,207 @@
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Detalles de la órdne de fabricación</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6" *ngIf="orden">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class=" col-12">
+                            <tabset type="pills" class="nav-fill flex-column flex-md-row">
+                                <tab>
+                                    <ng-template tabHeading>
+                                        <i class="fas fa-user"></i> Datos de la órden de fabricación
+                                    </ng-template>
+                                    <div class="card-body">
+                                        <form [formGroup]="ordenForm" (ngSubmit)="guardarOrden()">
+                                            <input type="hidden" formControlName="noOrden">
+
+                                            <h6 class="heading-small text-muted mb-4">Detalles generales</h6>
+                                            <div class="pl-lg-4">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Número de órden</label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="noOrden">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Fecha del de fabricación</label>
+                                                            <div
+                                                                *ngIf="ordenForm.get('isRango')?.value; else singleDatePicker">
+                                                                <input type="text" placeholder="Fecha inicio"
+                                                                    class="form-control" formControlName="fechaInicio"
+                                                                    bsDatepicker>
+                                                                <input type="text" placeholder="Fecha fin"
+                                                                    class="form-control" formControlName="fechaFin"
+                                                                    bsDatepicker>
+                                                            </div>
+                                                            <ng-template #singleDatePicker>
+                                                                <input type="text" placeholder="Fecha del curso"
+                                                                    class="form-control" formControlName="fechaInicio"
+                                                                    bsDatepicker>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">¿La fabricación se hará en 2 fechas?</label>
+                                                            <input type="checkbox" class="form-control"
+                                                                formControlName="isRango">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Cliente(s) de esta órden</label>
+                                                            <ng-select [items]="clientes" bindLabel="nombreComercial"
+                                                                [multiple]="true" formControlName="clienteId">
+                                                            </ng-select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Código</label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="domicilio">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Estatus</label>
+                                                            <select class="form-control" formControlName="status">
+                                                                <option value="0">Pendiente</option>
+                                                                <option value="1">En proceso</option>
+                                                                <option value="2">Entregado</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h6 class="heading-small text-muted mb-4">Detalles de la fabricación</h6>
+                                            <div class="pl-lg-4">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Detalles del color</label>
+                                                            <textarea class="form-control" formControlName="metodologia"
+                                                                cols="10" rows="7"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Suaje</label>
+                                                            <textarea class="form-control" formControlName="practica"
+                                                                cols="10" rows="7"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">Observaciones</label>
+                                                            <textarea class="form-control" formControlName="practica"
+                                                                cols="10" rows="7"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h6 class="heading-small text-muted mb-4 mt-2">Lista de materiales</h6>
+                                            <div formArrayName="participantes">
+                                                <h6 class="heading-small text-muted mb-4">Información de los materiales a utilizar en esta órden
+                                                </h6>
+                                                <div class="pl-lg-4">
+                                                    <div *ngFor="let participante of participantesArray.controls; let i = index"
+                                                        [formGroupName]="i">
+                                                        <h5 class="mb-3">Material {{ i + 1 }}</h5>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">Descripción</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="nombre">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">Centro c</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="apellido">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">OP</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="puesto">
+                                                                </div>
+                                                            </div>
+                           
+                                                            <!-- Campo Representante Comercial -->
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">Pieza</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="representanteComercial">
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Campo Representante Laboral -->
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">Cantidad</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="representanteLaboral">
+                                                                </div>
+                                                            </div>
+               
+                                                        </div>
+                                                        <div class="d-flex justify-content-end">
+                                                            <button type="button" class="btn btn-danger mb-3 mr-2"
+                                                                (click)="eliminarParticipante(i)">Eliminar
+                                                                material</button>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-secondary mb-4 mt-2"
+                                                    (click)="agregarParticipante()">Agregar
+                                                    material</button>
+                                            </div>
+                                            <div class="col text-left mt-4">
+                                                <button type="submit" class="btn btn-success">
+                                                    <span class="btn-inner--icon"><i class="fas fa-save"></i></span>
+                                                    <span class="btn-inner--text"> Actualizar</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </tab>
+                                <tab>
+                                    <ng-template tabHeading>
+                                        <i class="fas fa-file mr-2"></i>Archivos de la órden
+                                    </ng-template>
+                                    <app-docs-asesor [id]="id"></app-docs-asesor>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

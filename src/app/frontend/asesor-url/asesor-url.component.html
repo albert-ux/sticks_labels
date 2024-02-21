@@ -1,0 +1,244 @@
+<div class="container-fluid mt-8">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="client-image-container" *ngIf="cliente.logoURL">
+                        <img [src]="cliente.logoURL" class="client-image" />
+                    </div> -->
+                    <!-- <h4 class="text-center mt-6">{{ cliente.nombreComercial }}</h4> -->
+                    <h6 class="heading-small text-muted mb-4">Información de la inscripción</h6>
+                    <div class="pl-lg-4" *ngIf="orden">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Nombre del curso</label>
+                                    <p>{{orden.cursoTitulo}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Fecha</label>
+                                    <p>{{orden.fechaInicio | date:'dd/MM/yyyy'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="ordenForm" (ngSubmit)="guardarOrden()">
+                        <h6 class="heading-small text-muted mb-4 mt-2">Participantes</h6>
+                        <div formArrayName="participantes">
+                            <h6 class="heading-small text-muted mb-4">Información de Participantes</h6>
+                            <div class="pl-lg-4">
+                                <div *ngFor="let participante of participantesArray.controls; let i = index"
+                                    [formGroupName]="i">
+                                    <h5 class="mb-3">Participante {{ i + 1 }}</h5>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Nombre(s)</label>
+                                                <input type="text" class="form-control" formControlName="nombre">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Apellidos</label>
+                                                <input type="text" class="form-control" formControlName="apellido">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">CURP</label>
+                                                <input type="text" class="form-control" formControlName="curp">
+                                                <div *ngIf="participante.get('curp')?.hasError('invalidCURP')"
+                                                    class="text-danger">
+                                                    CURP no es válido.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Puesto</label>
+                                                <input type="text" class="form-control" formControlName="puesto">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"
+                                            *ngIf="ordenForm.get('clienteId')?.value && ordenForm.get('clienteId')?.value.length > 1">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Cliente</label>
+                                                <ng-select [items]="clientesSeleccionados" bindLabel="nombreComercial"
+                                                    formControlName="clienteIdForParticipante"></ng-select>
+                                            </div>
+                                        </div>
+                                        <!-- Campo Representante Comercial -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Representante de
+                                                    la empresa</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="representanteComercial">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Representante Laboral -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Representante de
+                                                    los
+                                                    trabajadores</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="representanteLaboral">
+                                            </div>
+                                        </div>
+                                        <!-- Campo Catálogo -->
+                                        <div class="col-6">
+                                            <small>Catálogo nacional de ocupaciones</small>
+                                            <ng-select formControlName="catalogo" bindLabel="name">
+                                                <ng-option *ngFor="let e of ocupaciones" [value]="e">
+                                                    {{e.clave}} - {{e.name}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                        <!-- Campo Asistencia -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Asistencia</label>
+                                                <input type="checkbox" class="form-control"
+                                                    formControlName="asistencia">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Calificación Teórica -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Calificación Teórica</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="calificacionTeorica">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Calificación Práctica -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Calificación Práctica</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="calificacionPractica">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Comentarios Desempeño -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Comentarios Desempeño</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="comentariosDesempeno">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Aprobatoria -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Aprobatoria</label>
+                                                <input type="checkbox" class="form-control"
+                                                    formControlName="aprobatoria">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Cumplimiento -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Cumplimiento</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionCumplimiento">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Desarrollo -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Desarrollo</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionDesarrollo">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Mezcla -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Mezcla</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionMezcla">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Dominio -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Dominio</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionDominio">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Metodología -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Metodología</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionMetodologia">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Visuales -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Visuales</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionVisuales">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Evaluación Cumplimiento -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Evaluación Cumplimiento</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="evaluacionCumplimiento">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Comentarios Mejores -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Comentarios Mejores</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="comentariosMejores">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Comentarios Recomendaciones -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Comentarios Recomendaciones</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="comentariosRecomendaciones">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-4 mt-2"
+                                (click)="agregarParticipante()">Agregar
+                                Participante</button>
+                        </div>
+                        <div class="col text-left mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <span class="btn-inner--icon"><i class="fas fa-save"></i></span>
+                                <span class="btn-inner--text"> Actualizar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

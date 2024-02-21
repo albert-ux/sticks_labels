@@ -1,0 +1,65 @@
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Ordenes de fabricación de etiquetas</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6" *ngIf="ordenes">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-content-end">
+                        <div class="col">
+                            <h3 class="paddingTop">Lista de órdenes</h3>
+                        </div>
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-success" routerLink="/admin/orden-nueva"> <!-- Puedes cambiar el routerLink según la ruta que usarás -->
+                                <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                                <span class="btn-inner--text">Crear nueva órden</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="dataTables_wrapper py-4">
+                    <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" 
+                        [rows]="temp" (activate)="onActivate($event)"
+                        routerLinkActive="router-link-active">
+                        <ngx-datatable-column name="No. Orden" prop="noOrden"></ngx-datatable-column>
+                        <ngx-datatable-column name="Estatus" prop="status">
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <div [ngSwitch]="row.status" [ngClass]="{
+                                    'text-orange': row.status === 0,
+                                    'text-blue': row.status === 1,
+                                    'text-green': row.status === 2
+                                }">
+                                    <span *ngSwitchCase="0">Pendiente</span>
+                                    <span *ngSwitchCase="1">En proceso</span>
+                                    <span *ngSwitchCase="2">Entregado</span>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Fecha de entrega" prop="fechaInicio">
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <div>{{ (row.fechaInicio.seconds * 1000) | date:'dd/MM/yyyy' }}</div>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Cliente">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                              <div *ngFor="let cliente of row.clienteId">
+                                {{ cliente.nombreComercial }}
+                              </div>
+                            </ng-template>
+                          </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

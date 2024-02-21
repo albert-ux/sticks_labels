@@ -1,0 +1,106 @@
+<div class=" main-content" style="background-color: #172b4d;">
+    <div class=" header bg-gradient-danger py-7 py-lg-8 pt-lg-9">
+      <div class=" container">
+        <div class=" header-body text-center mb-7">
+          <div class=" row justify-content-center">
+            <div class="col-12">
+              <img src="\assets\img\brand\etiquetas.jpeg" style="width: 250px;">
+            </div>
+            <div class=" col-xl-5 col-lg-6 col-md-8 px-5">  
+              <p class=" text-lead text-white">
+         Por favor ingrese sus datos para acceder al sistema de administración de etiquetas de occidente.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg
+          x="0"
+          y="0"
+          viewBox="0 0 2560 100"
+          preserveAspectRatio="none"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </div>
+  
+    <div class=" container mt--8 pb-5">
+      <div class=" row justify-content-center">
+        <div class=" col-lg-5 col-md-7">
+          <div class=" card bg-secondary border-0 mb-0">
+            <div class=" card-header bg-transparent pb-5">
+              <div class=" text-muted text-center mt-2 mb-3">
+                <small> Ingrese tu usuario y contraseña</small>
+              </div>
+              
+            </div>
+  
+            <div class=" card-body px-lg-5 py-lg-5">
+              <div class="alert alert-warning" role="alert">
+                Para ingresar al sistema por favor ingrese el siguiente usuario y contraseña: <br>
+                <strong>User:</strong> admin@etiquetasoccidente.com <br>
+                <strong>Password:</strong> admin
+            </div>
+              <form role="form" #login="ngForm" (ngSubmit)="onLogin()" autocomplete="on" >
+                <div
+                  class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
+                    </div>
+                    <input
+                      name="username" [(ngModel)]="data.username"
+                      class="form-control"
+                      placeholder="Correo electrónico"
+                      type="email"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-lock-circle-open"></i
+                      ></span>
+                    </div>
+                    <input
+                      name="password" [(ngModel)]="data.password"
+                      class="form-control"
+                      placeholder="Contraseña"
+                      type="password"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary my-4">
+                    Entrar
+                  </button>
+                </div>
+              </form>
+              <div class="alert alert-danger" role="alert" *ngIf="loginFalse" >
+                <strong>Aviso!</strong> Usuario y contraseñas invalidos.
+            </div>
+            </div>
+          </div>
+  
+          <div class=" row mt-3">
+            <div class=" col-6">
+              <a class=" text-light">
+                <small> ¿Olvidaste la contraseña? </small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+

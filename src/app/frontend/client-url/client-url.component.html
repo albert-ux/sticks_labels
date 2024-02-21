@@ -1,0 +1,207 @@
+<div class="container-fluid mt-8">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body" *ngIf="cliente">
+                    <div class="client-image-container" *ngIf="cliente.logoURL">
+                        <img [src]="cliente.logoURL" class="client-image" />
+                    </div>
+                    <h4 class="text-center mt-6">{{ cliente.nombreComercial }}</h4>
+                    <h6 class="heading-small text-muted mb-4">Información de la inscripción</h6>
+                    <div class="pl-lg-4" *ngIf="orden">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Nombre del curso</label>
+                                    <p>{{orden.cursoTitulo}}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Fecha</label>
+                                    <p>{{orden.fechaInicio | date:'dd/MM/yyyy'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                      Por favor, rellene toda la información restante y complete la información de los participantes de la inscripción.
+                    </div>
+                    <form>
+                        <h6 class="heading-small text-muted mb-4">Datos para la facturación</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Razón Social</label>
+                                        <input type="text" class="form-control" name="razonSocial"
+                                            [(ngModel)]="cliente.razonSocial" required>
+                                        <div *ngIf="!cliente.razonSocial" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">RFC</label>
+                                        <input type="text" class="form-control" name="rfc" [(ngModel)]="cliente.rfc"
+                                            required>
+                                        <div *ngIf="!cliente.rfc" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Método de pago</label>
+                                        <ng-select [items]="metodosDePago" [(ngModel)]="cliente.metodoPago"
+                                            name="metodoPago" placeholder="Selecciona un método de pago"
+                                            required></ng-select>
+                                        <div *ngIf="!cliente.metodoPago" class="text-danger">Es necesario seleccionar un
+                                            método de pago</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Forma de pago</label>
+                                        <ng-select [items]="tiposDePago" [(ngModel)]="cliente.formaPago"
+                                            name="formaPago" placeholder="Selecciona una forma de pago"
+                                            required></ng-select>
+                                        <div *ngIf="!cliente.formaPago" class="text-danger">Es necesario seleccionar una
+                                            forma de pago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="heading-small text-muted mb-4">Datos de contacto</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Nombre</label>
+                                        <input type="text" class="form-control" [(ngModel)]="cliente.nombre"
+                                            name="nombre" required>
+                                        <div *ngIf="!cliente.nombre" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Puesto</label>
+                                        <input type="text" class="form-control" [(ngModel)]="cliente.puesto"
+                                            name="puesto" required>
+                                        <div *ngIf="!cliente.puesto" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Teléfono</label>
+                                        <input type="tel" class="form-control" [(ngModel)]="cliente.telefono"
+                                            name="telefono" required>
+                                        <div *ngIf="!cliente.telefono" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Correo electrónico</label>
+                                        <input type="email" class="form-control" [(ngModel)]="cliente.email"
+                                            name="email" required>
+                                        <div *ngIf="!cliente.email" class="text-danger">Es necesario llenar esta
+                                            información</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <form [formGroup]="ordenForm" (ngSubmit)="guardarOrden()">
+                        <h6 class="heading-small text-muted mb-4 mt-2">Participantes</h6>
+                        <div formArrayName="participantes">
+                            <h6 class="heading-small text-muted mb-4">Información de Participantes</h6>
+                            <div class="pl-lg-4">
+                                <div *ngFor="let participante of participantesArray.controls; let i = index"
+                                    [formGroupName]="i">
+                                    <h5 class="mb-3">Participante {{ i + 1 }}</h5>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Nombre(s)</label>
+                                                <input type="text" class="form-control" formControlName="nombre">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Apellidos</label>
+                                                <input type="text" class="form-control" formControlName="apellido">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">CURP</label>
+                                                <input type="text" class="form-control" formControlName="curp">
+                                                <div *ngIf="participante.get('curp')?.hasError('invalidCURP')"
+                                                    class="text-danger">
+                                                    CURP no es válido.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Puesto</label>
+                                                <input type="text" class="form-control" formControlName="puesto">
+                                            </div>
+                                        </div>
+                                        <!-- Campo Representante Comercial -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Representante de
+                                                    la empresa</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="representanteComercial">
+                                            </div>
+                                        </div>
+
+                                        <!-- Campo Representante Laboral -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label">Representante de
+                                                    los
+                                                    trabajadores</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="representanteLaboral">
+                                            </div>
+                                        </div>
+                                        <!-- Campo Catálogo -->
+                                        <div class="col-6">
+                                            <small>Catálogo nacional de ocupaciones</small>
+                                            <ng-select formControlName="catalogo" bindLabel="name">
+                                                <ng-option *ngFor="let e of ocupaciones" [value]="e">
+                                                    {{e.clave}} - {{e.name}}</ng-option>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-danger mb-3 mr-2"
+                                            (click)="eliminarParticipante(i)">Eliminar
+                                            Participante</button>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-4 mt-2"
+                                (click)="agregarParticipante()">Agregar
+                                Participante</button>
+                        </div>
+                        <div class="col text-left mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <span class="btn-inner--icon"><i class="fas fa-save"></i></span>
+                                <span class="btn-inner--text"> Actualizar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

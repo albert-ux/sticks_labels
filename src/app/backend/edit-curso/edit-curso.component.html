@@ -1,0 +1,87 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+      <div class="header-body">
+          <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                  <h6 class="h2 text-white d-inline-block mb-0">Editar Curso</h6>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6" *ngIf="curso">
+  <div class="row">
+      <div class="col">
+          <div class="card">
+              <div class="card-header">
+                  <div class="row align-items-center">
+                      <div class="col-8">
+                          <h3 class="mb-0">Datos del Curso</h3>
+                      </div>
+                      <div class="col-4 text-right">
+                          <button class="btn btn-danger" (click)="eliminarCurso()">Eliminar Curso</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <form (ngSubmit)="actualizarCurso()">
+                      <h6 class="heading-small text-muted mb-4">Detalles del Curso</h6>
+                      <div class="pl-lg-4">
+                          <div class="row">
+                              <div class="col-lg-6">
+                                  <div class="form-group">
+                                      <label class="form-control-label">Nombre del curso</label>
+                                      <input type="text" class="form-control" [(ngModel)]="curso.curso" name="curso" required>
+                                  </div>
+                              </div>
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Área temática según la secretaria de trabajo</label>
+                                    <ng-select [(ngModel)]="curso.tematica" name="categoriaSeleccionada" [items]="categorias"
+                                    placeholder="Seleccione una categoría">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Metodología</label>
+                                    <textarea class="form-control" [(ngModel)]="curso.metodologia" name="metodologia" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Práctica</label>
+                                    <textarea class="form-control" [(ngModel)]="curso.practica" name="practica" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Objetivo</label>
+                                    <textarea class="form-control" [(ngModel)]="curso.objetivo" name="objetivo" required></textarea>
+                                </div>
+                            </div>
+                            
+                          </div>
+                      </div>
+                      <div class="col text-left mt-4">
+                          <button type="submit" class="btn btn-primary">
+                              <span class="btn-inner--icon mr-2"><i class="fas fa-save"></i></span>
+                              <span class="btn-inner--text">Actualizar Curso</span>
+                          </button>
+                      </div>
+                  </form>
+                  <h6 class="heading-small text-muted mb-4 mt-6">Instructores que tienen disponible este curso</h6>
+                  <div class="pl-lg-4">
+                      <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let tutor of tutores">
+                            <strong>  {{ tutor.nombre }} </strong>
+                          </li>
+                      </ul>
+                  </div>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+      <div class="header-body">
+          <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                  <h6 class="h2 text-white d-inline-block mb-0">Cursos</h6>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container-fluid mt--6" *ngIf="cursos">
+  <div class="row">
+      <div class="col">
+          <div class="card">
+              <div class="card-header">
+                  <div class="row align-content-end">
+                      <div class="col">
+                          <h3 class="paddingTop">Lista de cursos</h3>
+                      </div>
+                      <div class="col text-right">
+                          <button type="button" class="btn btn-success" [routerLink]="['/admin/curso-nuevo']"> 
+                              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                              <span class="btn-inner--text">Crear nuevo curso</span>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+              <div class="dataTables_wrapper py-4">
+                  <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50"
+                      [footerHeight]="50" [rowHeight]="'auto'" 
+                      [rows]="temp"  (activate)="onActivate($event)"
+                      routerLinkActive="router-link-active">
+                      <ngx-datatable-column prop="curso"></ngx-datatable-column>
+                      <ngx-datatable-column prop="objetivo"></ngx-datatable-column>
+                  </ngx-datatable>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

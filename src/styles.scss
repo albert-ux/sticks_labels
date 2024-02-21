@@ -1,1 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
+.custom-file-upload {
+    position: relative;
+}
+
+.custom-file-upload-label {
+    display: inline-block;
+    background-color: #5e72e4;  /* Color de fondo, puedes cambiarlo a lo que quieras */
+    color: white;               /* Color del texto */
+    padding: 8px 16px;          /* Espacio interno del botón */
+    border: none;
+    border-radius: 4px;        /* Bordes redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Animación suave de cambio de color */
+}
+
+.custom-file-upload-label:hover {
+    background-color: #324cdd;  /* Color de fondo al pasar el ratón por encima, ajusta según prefieras */
+}
+
+.form-control-file-hidden {
+    display: none;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  .card-custom {
+    margin-top: 50px; /* Ajusta este valor para cambiar la distancia entre el card y el borde superior */
+}
+
+.client-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.client-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -50px; /* Mueve la imagen hacia arriba para que la mitad esté dentro del card y la otra mitad esté fuera del card */
+}
+
