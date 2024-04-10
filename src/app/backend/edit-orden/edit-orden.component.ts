@@ -7,11 +7,13 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { take } from 'rxjs';
+import { DC3Service } from 'src/app/services/dc3.service';
 defineLocale('es', esLocale);
 
 @Component({
   selector: 'app-edit-orden',
-  templateUrl: './edit-orden.component.html'
+  templateUrl: './edit-orden.component.html',
+  providers: [DC3Service]
 })
 export class EditOrdenComponent implements OnInit {
 
@@ -100,6 +102,7 @@ export class EditOrdenComponent implements OnInit {
     private router: Router,
     private alertService: AlertService,
     private localeService: BsLocaleService,
+    private pdfPrintService: DC3Service
   ) {
     this.localeService.use('es');
   }
@@ -173,6 +176,7 @@ export class EditOrdenComponent implements OnInit {
   getOrden(): void {
     this.backendService.getOrdenById(this.id).pipe(take(1)).subscribe(data => {
       this.orden = data;
+      console.log('orden', this.orden);
       this.ordenForm.patchValue(this.orden);
       this.orden.participantes.forEach((participante:any) => {
         this.participantesArray.push(this.pushForm(participante));
@@ -299,5 +303,8 @@ export class EditOrdenComponent implements OnInit {
     this.router.navigate(['/asesor-url/' + this.id]);
   }
 
+  printPDF(){
+    this.pdfPrintService.pdf(this.orden);
+  }
 
 }
